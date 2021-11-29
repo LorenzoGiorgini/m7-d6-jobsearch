@@ -41,6 +41,12 @@ const Home = () => {
 
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    if (home.search !== "") {
+      fetchJobs(home.search);
+    }
+  }, [home.search]);
+
   return (
     <Container>
       <Row>
