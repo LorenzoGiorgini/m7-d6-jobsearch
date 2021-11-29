@@ -2,6 +2,10 @@
 import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
 
+//REDUX PERSISTOR
+import { persistStore, persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
+
 //REDUCERS
 import favourites from "../reducers/favourites";
 import home from "../reducers/home";
@@ -23,13 +27,24 @@ const mainReducer = combineReducers({
   home,
 });
 
+//PERSIST THE STORAGE
+const persistConfig = {
+  key: 'root',
+  storage,
+}
+
+//PERSIST THE REDUCERS
+const persistedReducer = persistReducer(persistConfig, mainReducer)
+
 //COMPOSE MULTIPLE MIDDLEWARES
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const configureStore = createStore(
-  mainReducer,
+  persistedReducer,
   initialState,
   composeEnhancers(applyMiddleware(thunk))
 );
 
-export default configureStore;
+let persistor = persistStore(configureStore)
+
+export default {configureStore , persistor};
