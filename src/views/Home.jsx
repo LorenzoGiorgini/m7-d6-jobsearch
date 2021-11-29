@@ -10,11 +10,12 @@ import {
 import SingleJob from "../components/SingleJob";
 import SpinnerB from "../components/SpinnerB";
 
-import { connect } from "react-redux";
+/* import { connect } from "react-redux"; */
 import { fetchJobs } from "../redux/reducers/home";
 import { SET_SEARCH } from "../redux/actions/actions";
+import { useSelector, useDispatch } from "react-redux";
 
-const mapStateToProps = (state) => {
+/* const mapStateToProps = (state) => {
   return {
     home: state.home
   }
@@ -28,9 +29,18 @@ const mapDispatchToProps = (dispatch) => ({
     });
   },
   getJobs: (value) => dispatch(fetchJobs(value)),
+}); */
+
+const setSearch = (value) => ({
+  type: SET_SEARCH,
+  payload: value,
 });
 
-const Home = (props) => {
+const Home = () => {
+  const { home } = useSelector((state) => state);
+
+  const dispatch = useDispatch();
+
   return (
     <Container>
       <Row>
@@ -38,21 +48,21 @@ const Home = (props) => {
           <FormControl
             type="text"
             placeholder="Search job offers"
-            value={props.home.search}
+            value={home.search}
             className="mr-sm-2"
-            onChange={(e) => props.setSearch(e.target.value.toLowerCase())}
+            onChange={(e) => dispatch(setSearch(e.target.value.toLowerCase()))}
           />
-          {props.home.isLoading === true ? (
+          {home.isLoading === true ? (
             <div className="w-100 mt-5">
               <div className="d-flex align-items-center justify-content-center w-100">
                 <SpinnerB />
               </div>
             </div>
           ) : (
-            props.home.search !== "" && (
+            home.search !== "" && (
               <div className="d-flex flex-column">
                 <ListGroup>
-                  {props.home.jobs.map((job) => {
+                  {home.jobs.map((job) => {
                     return <SingleJob job={job} />;
                   })}
                 </ListGroup>
@@ -61,7 +71,7 @@ const Home = (props) => {
           )}
           <Button
             variant="outline-success"
-            onClick={() => props.getJobs(props.home.search)}
+            onClick={() => dispatch(fetchJobs(home.search))}
           >
             Search
           </Button>
@@ -71,4 +81,4 @@ const Home = (props) => {
   );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default /* connect(mapStateToProps, mapDispatchToProps) */ Home;

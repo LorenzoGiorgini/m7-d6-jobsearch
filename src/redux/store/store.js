@@ -6,6 +6,9 @@ import thunk from "redux-thunk";
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
+//Encryption
+import { encryptTransform } from 'redux-persist-transform-encrypt'
+
 //REDUCERS
 import favourites from "../reducers/favourites";
 import home from "../reducers/home";
@@ -31,6 +34,11 @@ const mainReducer = combineReducers({
 const persistConfig = {
   key: 'root',
   storage,
+  transforms: [
+    encryptTransform({
+      secretKey: process.env.KEY_DECRYPT,
+    })
+  ]
 }
 
 //PERSIST THE REDUCERS
