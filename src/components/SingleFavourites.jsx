@@ -1,23 +1,21 @@
 import React from "react";
 import { Card, Button } from "react-bootstrap";
 
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
+
+/* import { connect } from "react-redux"; */
 import { REMOVE_FROM_FAVOURITES } from "../redux/actions/actions";
 
 import { useNavigate } from "react-router";
 
-const mapStateToProps = (state) => ({});
 
-const mapDispatchToProps = (dispatch) => ({
-  removeFromFavourites: (index) => {
-    dispatch({
-      type: REMOVE_FROM_FAVOURITES,
-      payload: index,
-    });
-  },
-});
+const removeFromFavourites = (index) => ({
+  type: REMOVE_FROM_FAVOURITES,
+  payload: index
+})
 
 function SingleFavourites(props) {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   return (
@@ -33,12 +31,14 @@ function SingleFavourites(props) {
             >
               Description
             </Button>
-            <Button 
-            variant="danger"
-            className="ml-2"
-            onClick={() => props.removeFromFavourites(props.index)}
+            <Button
+              variant="danger"
+              className="ml-2"
+              onClick={() => dispatch(
+                removeFromFavourites(props.index)
+              )}
             >
-                X
+              X
             </Button>
           </div>
         </Card.Body>
@@ -50,5 +50,5 @@ function SingleFavourites(props) {
   );
 }
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(SingleFavourites);
+export default SingleFavourites;
+/* connect(mapStateToProps, mapDispatchToProps)() */

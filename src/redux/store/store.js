@@ -24,7 +24,7 @@ export const initialState = {
 //COMBINE MULTIPLE REDUCERS INTO ONE
 const mainReducer = combineReducers({
   favourites,
-  home,
+  home: home,
 });
 
 //PERSIST THE STORAGE
@@ -45,6 +45,7 @@ const configureStore = createStore(
   composeEnhancers(applyMiddleware(thunk))
 );
 
-let persistor = persistStore(configureStore)
+export const persistor = persistStore(configureStore)
 
-export default {configureStore , persistor};
+
+export default configureStore;
