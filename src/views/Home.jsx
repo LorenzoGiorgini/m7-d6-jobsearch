@@ -43,7 +43,7 @@ const Home = () => {
 
   useEffect(() => {
     if (home.search !== "") {
-      fetchJobs(home.search);
+      dispatch(fetchJobs(home.search))
     }
   }, [home.search]);
 
