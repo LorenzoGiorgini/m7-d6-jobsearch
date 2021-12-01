@@ -56,4 +56,4 @@ const configureStore = createStore(
 export const persistor = persistStore(configureStore)
 
 
-export default configureStore;
+export default configureStore
